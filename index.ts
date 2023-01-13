@@ -50,7 +50,8 @@ let Converters = {
         "SAR":12.30
     },
 }
-
+async function CurrencyConverter() {
+    
 const answer: { from: "PKR" | "GBP" | "USD"| "SAR"|"AED"|"KWD", to: "PKR" | "GBP" | "USD"|"SAR"|"AED"|"KWD", amount: number } = await inquirer.prompt([
     {
         type: 'list',
@@ -79,3 +80,18 @@ if (from && to && amount) {
 } else {
     console.log('Invalid Inputs');
 }
+
+}
+async function startAgain(){
+    do{
+        await CurrencyConverter();
+        var again = await inquirer
+    .prompt({
+            type: "input",
+            name: "restart",
+            message: "Do u want to countinue? Press y/n"
+           })
+        }
+        while(again.restart=="y" || again.restart=="Y" ||again.restart=="Yes" || again.restart=="YES" || again.restart=="yes");
+    }
+    startAgain();

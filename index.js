@@ -49,30 +49,44 @@ let Converters = {
         "SAR": 12.30
     },
 };
-const answer = await inquirer.prompt([
-    {
-        type: 'list',
-        name: 'from',
-        choices: ["PKR", "GBP", "USD", "AED", "KWD", "SAR"],
-        message: "Select Your Currency: "
-    },
-    {
-        type: 'list',
-        name: 'to',
-        choices: ["PKR", "GBP", "USD", "AED", "KWD", "SAR"],
-        message: "Select Your Convert  Currency:"
-    },
-    {
-        type: 'number',
-        name: 'amount',
-        message: 'Enter Your convertion amount:'
+async function CurrencyConverter() {
+    const answer = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'from',
+            choices: ["PKR", "GBP", "USD", "AED", "KWD", "SAR"],
+            message: "Select Your Currency: "
+        },
+        {
+            type: 'list',
+            name: 'to',
+            choices: ["PKR", "GBP", "USD", "AED", "KWD", "SAR"],
+            message: "Select Your Convert  Currency:"
+        },
+        {
+            type: 'number',
+            name: 'amount',
+            message: 'Enter Your convertion amount:'
+        }
+    ]);
+    const { from, to, amount } = answer;
+    if (from && to && amount) {
+        let result = Converters[from][to] * amount;
+        console.log(`Your ${amount} ${from} is ${result} ${to}`);
     }
-]);
-const { from, to, amount } = answer;
-if (from && to && amount) {
-    let result = Converters[from][to] * amount;
-    console.log(`Your ${amount} ${from} is ${result} ${to}`);
+    else {
+        console.log('Invalid Inputs');
+    }
 }
-else {
-    console.log('Invalid Inputs');
+async function startAgain() {
+    do {
+        await CurrencyConverter();
+        var again = await inquirer
+            .prompt({
+            type: "input",
+            name: "restart",
+            message: "Do u want to countinue? Press y/n"
+        });
+    } while (again.restart == "y" || again.restart == "Y" || again.restart == "Yes" || again.restart == "YES" || again.restart == "yes");
 }
+startAgain();
